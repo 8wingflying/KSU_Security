@@ -1,9 +1,17 @@
+
+
 # KSU_Security
 - [Windows server滲透測試(M3)](M3.md)
 - Linux server滲透測試(M2)
 - 網路安全| DVWA網站應用程式滲透測試
+  - 原始碼分析
+  - ZAP漏洞掃描
+  - Sqlmap 漏洞攻擊
+  - 攻擊log分析
+  - 簡易Web IDS測試 
 
-
+## 作業
+- 
 ## Udemy推薦課程:國際證照
 - `已買`[Ethical Hacker Training for the v13 Exam](https://www.udemy.com/course/ethical-hacking-training-exam/?couponCode=PMNVD2025)
 - `已買`[How To Hack The Box To Your OSCP](https://www.udemy.com/course/how-to-hack-the-box-to-your-oscp/?couponCode=PMNVD2025)
