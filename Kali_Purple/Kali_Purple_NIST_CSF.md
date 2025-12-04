@@ -134,6 +134,25 @@ Kali Purple 的選單依據防禦流程進行分類，左側最上方的五個�
 
 ---
 
+## 3. 004 - Recover (復原階段)
+**目標**：恢復因資安事件而受損的功能或服務，重點在於資料搶救。
+
+### A. 磁碟映像與災難救援 (處理壞軌)
+* **dd_rescue**：強大的資料複製工具，能處理讀取錯誤，適合從受損硬碟製作映像檔。
+* **myrescue**：類似 dd_rescue，專為救援有大量壞軌的硬碟設計，策略是先讀取好的區塊，最後再嘗試壞區塊。
+* **recoverdm**：專門用於救援有壞軌的磁碟或光碟。
+
+### B. Linux 檔案系統救援 (誤刪復原)
+* **extundelete**：利用 ext3/ext4 分區的日誌 (journal) 來復原被刪除的檔案。
+* **ext4magic** / **ext3grep**：針對 ext4 與 ext3 檔案系統的高階救援工具，可依時間點或目錄結構復原檔案。
+
+### C. 特定系統與格式救援
+* **scrounge-ntfs**：資料救援工具，專門從損毀的 Windows NTFS 分區中搶救資料。
+* **undbx**：郵件救援工具，用於從損壞的 Outlook Express DBX 檔案中提取電子郵件。
+* **recoverjpeg**：檔案雕刻 (File Carving) 工具，忽略檔案系統結構，直接掃描磁碟以找回 JPEG 圖片。
+
+---
+
 ## 2. 005 - Respond (回應階段)
 此階段的目標是**「針對已偵測到的資安事件採取行動」**。
 這不僅僅是阻擋攻擊，更包含了**事件管理 (Incident Management)**、**協同作業**與**分析**。Kali Purple 在此階段引入了完整的 SOC (資安監控中心) 平台。
@@ -151,7 +170,32 @@ Kali Purple 的選單依據防禦流程進行分類，左側最上方的五個�
     * 雖然許多鑑識工具位於 "Detect" 或 "Identify"，但在回應階段，分析師需要深入調查「攻擊者到底做了什麼？」。
     * **Autopsy**：數位鑑識平台，用於分析受駭主機的硬碟映像檔。
     * **OllyDbg / Ghidra**：如果回應過程中捕獲了惡意程式樣本，逆向工程工具可用於分析其行為以制定阻擋策略。
+## 4. 005 - Respond (回應階段)
+**目標**：針對已偵測到的資安事件採取行動。此階段工具涵蓋**數位鑑識 (Forensics)**、**逆向工程**與**網路分析**。
+*(參考圖片: image_58d0eb.jpg)*
 
+### A. 數位證據取證 (Acquisition)
+* **dc3dd**：加強版的 `dd` 指令，具備雜湊驗證功能，用於製作具有法律效力的磁碟映像檔。
+* **ewfacquire**：用於獲取 EWF (Expert Witness Format) 格式的磁碟映像，這是鑑識軟體通用的格式。
+* **guymager**：圖形化的磁碟鑑識映像檔製作工具，速度快且介面友善。
+
+### B. 檔案與系統鑑識 (File & System Forensics)
+* **foremost**：經典的檔案雕刻工具，根據檔案標頭特徵從映像檔中復原資料。
+* **galleta**：專門用於分析與提取 Internet Explorer Cookie 資訊的鑑識工具。
+* **icat / ils**：屬於 The Sleuth Kit 工具集，用於查看檔案系統的 Inode 與區塊資訊。
+* **mac-robber / mactime**：用於建立與分析檔案系統的時間軸 (Timeline)，追蹤檔案的修改、存取與改變時間 (MAC times)。
+* **hashrat**：支援多種演算法的雜湊計算工具，用於驗證檔案完整性。
+
+### C. 惡意程式分析與逆向工程 (Malware Analysis)
+* **ghidra**：由 NSA 開發的強大開源逆向工程框架，用於分析惡意程式碼。
+* **ollydbg**：經典的 x86 組合語言除錯器，常用於動態分析惡意軟體。
+* **yara**：惡意軟體特徵比對工具，用來分類與識別惡意樣本。
+* **rkhunter (Rootkit Hunter)**：掃描系統中是否存在 Rootkit、後門程式與可疑漏洞。
+
+### D. 網路與流量分析 (Network Analysis)
+* **wireshark**：世界標準的網路封包分析工具，用於深入檢查網路流量中的攻擊痕跡。
+* **netsniff-ng**：高效能的網路嗅探器與封包分析工具包。
+* **impacket-scripts**：一組強大的 Python 腳本，常用於與網路協定互動（如 SMB, Kerberos），既可用於攻擊也可用於驗證網路行為。
 ---
 
 ## 總結：Kali Purple 的 NIST 完整流程
