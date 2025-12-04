@@ -1,5 +1,3 @@
-
-
 # KSU_Security
 - [Windows server滲透測試(M3)](M3.md)
 - Linux server滲透測試(M2)
@@ -11,7 +9,10 @@
   - 簡易Web IDS測試 
 
 ## 作業
-- [Vulnhub: Web Machine: (N7) Walkthrough (CTF)]()
+- [Vulnhub: Web Machine: (N7)](https://www.vulnhub.com/entry/web-machine-n7,756/)
+  - [Vulnhub: Web Machine: (N7) Walkthrough (CTF)](https://medium.com/@psmile1/vulnhub-web-machine-n7-walkthrough-ctf-817315136f5b)
+  - https://www.cnblogs.com/wthuskyblog/p/16027946.html
+
 ## Udemy推薦課程:國際證照
 - `已買`[Ethical Hacker Training for the v13 Exam](https://www.udemy.com/course/ethical-hacking-training-exam/?couponCode=PMNVD2025)
 - `已買`[How To Hack The Box To Your OSCP](https://www.udemy.com/course/how-to-hack-the-box-to-your-oscp/?couponCode=PMNVD2025)
