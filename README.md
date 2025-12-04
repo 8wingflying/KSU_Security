@@ -1,5 +1,5 @@
 # KSU_Security
-
+- [10 Malware Detection Techniques](https://www.crowdstrike.com/en-us/cybersecurity-101/malware/malware-detection/)
 ## Udemy推薦課程:國際證照
 - `已買`[Ethical Hacker Training for the v13 Exam](https://www.udemy.com/course/ethical-hacking-training-exam/?couponCode=PMNVD2025)
 - `已買`[How To Hack The Box To Your OSCP](https://www.udemy.com/course/how-to-hack-the-box-to-your-oscp/?couponCode=PMNVD2025)
