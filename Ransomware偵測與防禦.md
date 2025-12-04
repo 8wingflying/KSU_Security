@@ -1,0 +1,20 @@
+# Ransomware
+
+## 著名Ransomware
+- BadRabbit
+- BitPaymer
+- Cerber
+- Cryptolocker
+- Dharma
+- DoppelPaymer
+- GandCrab
+- Locky
+- Maze
+- MeduzaLocker
+- NetWalker
+- NotPetya
+- Petya
+- REvil
+- Ryuk
+- SamSam
+- WannaCry
