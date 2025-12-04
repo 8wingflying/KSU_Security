@@ -1,4 +1,4 @@
-# Kali Purple 作業系統入門教學導引
+# Kali Purple 作業系統
 
 ## 1. 什麼是 Kali Purple？
 
