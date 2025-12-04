@@ -28,7 +28,9 @@
 * **運作方式：** 在原本查詢後附加全新的 SQL 語句。常用於執行非查詢操作，如 `INSERT`、`UPDATE`、`DELETE` 或開啟 OS Shell (`xp_cmdshell`)。
     * *注意：並非所有環境（如 PHP + MySQL 預設配置）都支援此方式。*
 
-## 6. Out-of-band (OOB / 帶外注入)
+## 6. Out-of-band (OOB / 帶外注入)  ??  
+# 官方說只有五種 ==> https://github.com/sqlmapproject/sqlmap/wiki/Techniques
+# 但sqlmap -h ==> --technique=TECH..  SQL injection techniques to use (default "BEUSTQ") 有六個代號
 * **代號：** `Q`
 * **原理：** 當網頁無回顯且時間盲注不穩定時，利用資料庫發送外部請求的能力。
 * **運作方式：** 利用資料庫功能（如 Oracle `UTL_HTTP`、SQL Server `xp_dirtree`）向攻擊者控制的伺服器發送 DNS 或 HTTP 請求，將數據「帶」出來。
