@@ -225,3 +225,213 @@ nmap -p- -sV -T4 192.168.1.5
 
 nmap -p 445 --script=smb-vuln* 192.168.1.5
 ```
+
+
+## python-nmap
+- 設計一個簡單的 **Python 腳本範例**，展示如何使用 `python-nmap` 庫來自動化執行這些掃描並解析結果
+```python
+import sys
+!apt-get update
+!apt-get install -y nmap
+!pip install python-nmap
+import nmap
+
+def run_scanner(target_ip):
+    # 初始化 Nmap PortScanner 物件
+    nm = nmap.PortScanner()
+
+    print(f"[*] 正在掃描目標: {target_ip} ... (這可能需要幾分鐘)")
+
+    try:
+        # 執行掃描
+        # arguments: 指定 nmap 參數
+        # -sV: 版本偵測, -T4: 加快速度, -F: 快速模式(僅掃描常見100個端口)
+        result = nm.scan(hosts=target_ip, arguments='-sV -T4 -F')
+
+    except nmap.PortScannerError as e:
+        print(f"[!] Nmap 執行錯誤: {e}")
+        sys.exit(0)
+    except Exception as e:
+        print(f"[!] 發生未預期錯誤: {e}")
+        sys.exit(0)
+
+    # 檢查是否有掃描到主機
+    if not nm.all_hosts():
+        print("[-] 未發現存活主機或主機屏蔽了掃描。")
+        return
+
+    # 解析並列印結果
+    for host in nm.all_hosts():
+        print("-" * 50)
+        print(f"目標主機: {host} ({nm[host].hostname()})")
+        print(f"狀態: {nm[host].state()}")
+
+        # 遍歷所有協議 (TCP/UDP)
+        for proto in nm[host].all_protocols():
+            print(f"\n協議: {proto.upper()}")
+
+            # 獲取該協議下所有開放的端口並排序
+            lport = nm[host][proto].keys()
+            sorted_ports = sorted(lport)
+
+            for port in sorted_ports:
+                # 獲取端口詳細資訊
+                port_info = nm[host][proto][port]
+                state = port_info['state']
+                name = port_info['name']
+                version = port_info['version']
+                product = port_info['product']
+
+                # 格式化輸出
+                print(f"    Port: {port}\tState: {state}\tService: {name}")
+                if product or version:
+                    print(f"        └─ Version: {product} {version}")
+
+    print("-" * 50)
+    print("[*] 掃描完成")
+
+if __name__ == "__main__":
+    # 範例目標 (也可以改為 input 讓使用者輸入)
+    target = input("請輸入要掃描的 IP 或網域: ")
+    if target:
+        run_scanner(target)
+    else:
+        print("未輸入目標，程式結束。")
+```
+
+- 輸入 ==> scanme.nmap.org
+
+## 實作 網頁版 Nmap 掃描器
+- 使用 Streamlit 撰寫一個簡單的網頁版 Nmap 掃描器，讓沒有 CLI 經驗的人也能用。
+- Streamlit Nmap 掃描器程式碼 (web_scanner.py
+
+```python
+import streamlit as st
+import nmap
+import pandas as pd
+import socket
+from datetime import datetime
+
+# 設定網頁標題與佈局
+st.set_page_config(page_title="簡易 Nmap 網頁掃描器", page_icon="🔍", layout="wide")
+
+st.title("🔍 簡易 Nmap 網頁掃描器")
+st.markdown("讓沒有 CLI 經驗的人也能輕鬆進行網路安全掃描。")
+
+# --- 側邊欄：設定掃描參數 ---
+st.sidebar.header("⚙️ 掃描設定")
+
+target = st.sidebar.text_input("輸入目標 IP 或網域", "scanme.nmap.org")
+
+# 定義掃描模式對應的參數 (這就是讓小白好用的關鍵)
+scan_profiles = {
+    "🚀 快速掃描 (最常用)": "-F -T4",
+    "📝 服務版本偵測 (標準)": "-sV -T4",
+    "🛡️ 漏洞腳本掃描 (進階)": "-sV --script=vuln",
+    "🐢 慢速隱蔽掃描 (躲避偵測)": "-T1",
+    "🌐 全端口掃描 (1-65535)": "-p- -T4"
+}
+
+mode = st.sidebar.selectbox("選擇掃描模式", list(scan_profiles.keys()))
+arguments = scan_profiles[mode]
+
+start_scan = st.sidebar.button("開始掃描")
+
+# --- 主程式邏輯 ---
+
+def run_scan(target_ip, scan_args):
+    nm = nmap.PortScanner()
+    try:
+        # 解析域名為 IP (如果是域名的話)
+        ip_address = socket.gethostbyname(target_ip)
+        
+        # 執行掃描
+        nm.scan(ip_address, arguments=scan_args)
+        return nm
+    except Exception as e:
+        st.error(f"發生錯誤: {e}")
+        return None
+
+if start_scan:
+    if not target:
+        st.warning("請輸入目標 IP！")
+    else:
+        with st.spinner(f"正在掃描 {target} ... 請稍候 (模式: {mode})"):
+            # 記錄開始時間
+            start_time = datetime.now()
+            
+            # 執行掃描函數
+            nm_result = run_scan(target, arguments)
+            
+            if nm_result and nm_result.all_hosts():
+                host = list(nm_result.all_hosts())[0] # 取第一個主機
+                
+                # 計算耗時
+                duration = datetime.now() - start_time
+                st.success(f"掃描完成！耗時: {duration}")
+
+                # --- 顯示主機摘要資訊 ---
+                col1, col2, col3 = st.columns(3)
+                with col1:
+                    st.metric("目標 IP", host)
+                with col2:
+                    status = nm_result[host].state()
+                    st.metric("主機狀態", status, delta="Online" if status=='up' else "Offline")
+                with col3:
+                    # 嘗試獲取主機名
+                    hostname = nm_result[host].hostname()
+                    st.metric("主機名稱", hostname if hostname else "Unknown")
+
+                # --- 整理端口數據為 DataFrame 表格 ---
+                ports_data = []
+                
+                # 檢查是否有 TCP 協議的掃描結果
+                if 'tcp' in nm_result[host]:
+                    for port, info in nm_result[host]['tcp'].items():
+                        ports_data.append({
+                            "Port": port,
+                            "State": info['state'],
+                            "Service": info['name'],
+                            "Product": info.get('product', ''),
+                            "Version": info.get('version', '')
+                        })
+                
+                if ports_data:
+                    df = pd.DataFrame(ports_data)
+                    st.subheader("📊 開放端口列表")
+                    
+                    # 使用 Streamlit 的互動式表格
+                    st.dataframe(
+                        df, 
+                        use_container_width=True,
+                        column_config={
+                            "Port": st.column_config.NumberColumn(format="%d"),
+                            "State": "狀態",
+                            "Service": "服務名稱",
+                            "Product": "軟體",
+                            "Version": "版本號"
+                        }
+                    )
+                    
+                    # --- 下載報告功能 ---
+                    csv = df.to_csv(index=False).encode('utf-8')
+                    st.download_button(
+                        label="📥 下載 CSV 掃描報告",
+                        data=csv,
+                        file_name=f'scan_result_{host}.csv',
+                        mime='text/csv',
+                    )
+                else:
+                    st.info("未發現開放的 TCP 端口 (或者是被防火牆阻擋)。")
+                
+                # --- 顯示原始 JSON (給進階使用者看) ---
+                with st.expander("查看原始 Nmap JSON 數據"):
+                    st.json(nm_result[host])
+                    
+            else:
+                st.error("掃描失敗或主機未回應 (Host Down)。請檢查目標是否正確或防火牆設定。")
+
+# 頁尾
+st.divider()
+st.caption("⚠️ 免責聲明：本工具僅供授權測試與教育用途，請勿用於非法入侵。")
+```
