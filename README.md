@@ -20,6 +20,6 @@
 - [Certified Incident Handler v2](https://www.udemy.com/course/certified-incident-handler-v2/?couponCode=PMNVD2025)
 - [GIAC Certified Incident Handler (GCIH) - Complete Guide](https://www.udemy.com/course/giac-certified-incident-handler/?couponCode=PMNVD2025)
 ## Udemy推薦課程:
-- [SOC(Cybersecurity):Build Powerful SOC with Open Source Tools](https://www.udemy.com/course/soccybersecuritybuild-your-own-soc-with-open-source-tools/?couponCode=PMNVD2025)
+- `已買`[SOC(Cybersecurity):Build Powerful SOC with Open Source Tools](https://www.udemy.com/course/soccybersecuritybuild-your-own-soc-with-open-source-tools/?couponCode=PMNVD2025)
 # 參考資料
 - [10 Malware Detection Techniques](https://www.crowdstrike.com/en-us/cybersecurity-101/malware/malware-detection/)
