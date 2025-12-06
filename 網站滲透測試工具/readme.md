@@ -1,7 +1,8 @@
 
-# 網站滲透測試工具大全 (Web Penetration Testing Tools)
+# 網站滲透測試工具(Web Penetration Testing Tools)
 
-網站滲透測試（Web Penetration Testing）是模擬駭客攻擊以找出網站安全漏洞的過程。本文件整理了從資訊蒐集、漏洞掃描到實際漏洞利用（Exploitation）的常用工具。
+- 網站滲透測試（Web Penetration Testing）是模擬駭客攻擊以找出網站安全漏洞的過程。
+- 本文件整理了從資訊蒐集、漏洞掃描到實際漏洞利用（Exploitation）的常用工具。
 
 ---
 
@@ -82,10 +83,3 @@
 
 ---
 
-## ⚠️ 重要提示：道德與法律
-
-> **警告：**
-> 未經授權對任何網站進行滲透測試（包含掃描）在大多數國家都是**嚴重違法**的行為。
->
-> 1.  **授權：** 請務必確保您擁有目標網站的書面授權。
-> 2.  **練習：** 請僅在自己架設的實驗環境（如 DVWA, Metasploitable, OWASP Juice Shop）中進行練習。
